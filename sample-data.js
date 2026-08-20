@@ -1,0 +1,48 @@
+// Demo data shown until a real Supabase project is connected (see README.md).
+// Once CONFIG.SUPABASE_URL is set, this file is ignored.
+const SAMPLE_FACILITIES = [
+  {
+    id: "demo-1",
+    name: "Abbotsford Regional Hospital",
+    type: "er",
+    city: "Abbotsford",
+    province: "BC",
+    lat: 49.0504,
+    lng: -122.2887,
+    avg_wait_minutes: 250,
+    avg_rating: 3.4,
+  },
+  {
+    id: "demo-2",
+    name: "Fraser Valley Urgent Care",
+    type: "walkin",
+    city: "Abbotsford",
+    province: "BC",
+    lat: 49.0561,
+    lng: -122.2960,
+    avg_wait_minutes: 55,
+    avg_rating: 4.1,
+  },
+  {
+    id: "demo-3",
+    name: "Mission Community Hospital",
+    type: "er",
+    city: "Mission",
+    province: "BC",
+    lat: 49.1336,
+    lng: -122.3131,
+    avg_wait_minutes: 80,
+    avg_rating: 4.0,
+  },
+  {
+    id: "demo-4",
+    name: "Surrey Memorial Hospital",
+    type: "er",
+    city: "Surrey",
+    province: "BC",
+    lat: 49.1793,
+    lng: -122.8399,
+    avg_wait_minutes: 300,
+    avg_rating: 2.9,
+  },
+];

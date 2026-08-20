@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report a visit — HonestER</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
+    <nav class="main-nav">
+      <span class="nav-link" style="display:flex;align-items:center;gap:4px;">
+        <i class="ti ti-lock"></i> Anonymous &middot; no login
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="form-shell">
+
+    <form id="report-form" class="card">
+      <p style="font-size:16px;font-weight:700;margin:0 0 2px;">Report your visit</p>
+      <p style="font-size:13px;color:var(--text-secondary);margin:0 0 18px;">Takes about 5 minutes. No personal info collected.</p>
+
+      <div class="field">
+        <label for="facility-input">Hospital or clinic</label>
+        <input id="facility-input" type="text" placeholder="Start typing a name…" autocomplete="off" required />
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label for="checkin-time">Check-in time</label>
+          <input id="checkin-time" type="time" required />
+        </div>
+        <div class="field">
+          <label for="seen-time">Seen by doctor</label>
+          <input id="seen-time" type="time" required />
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label for="age-bracket">Age bracket</label>
+          <select id="age-bracket" required>
+            <option value="">Select…</option>
+            <option value="0-12">0–12</option>
+            <option value="13-17">13–17</option>
+            <option value="18-64">18–64</option>
+            <option value="65+">65+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="visit-category">Visit category</label>
+          <select id="visit-category" required>
+            <option value="">Select…</option>
+            <option value="injury">Injury</option>
+            <option value="pain">Pain</option>
+            <option value="breathing_cardiac">Breathing / cardiac</option>
+            <option value="pediatric_illness">Pediatric illness</option>
+            <option value="mental_health">Mental health</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Overall rating</label>
+        <div id="overall-stars" class="stars">
+          <i class="ti ti-star"></i><i class="ti ti-star"></i><i class="ti ti-star"></i><i class="ti ti-star"></i><i class="ti ti-star"></i>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Doctors or nurses you saw (optional)</label>
+        <div id="staff-rows"></div>
+        <button type="button" id="add-staff-btn" class="add-staff-btn">
+          <i class="ti ti-plus"></i> Add a doctor or nurse
+        </button>
+      </div>
+
+      <p id="form-error" class="error-text"></p>
+
+      <button type="submit" class="btn primary block" style="margin-top:8px;">Submit report</button>
+      <p class="privacy-note">No names, emails, or IP addresses are stored with your report.</p>
+    </form>
+
+    <div id="confirmation" class="card">
+      <i class="ti ti-circle-check"></i>
+      <h2 style="margin:12px 0 6px;">Thanks for the report</h2>
+      <p style="color:var(--text-secondary);">Your submission helps the next person know what to expect.</p>
+      <a href="index.html" class="btn primary" style="margin-top:16px;display:inline-flex;">Back to map</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  HonestER is community-reported and anonymous.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="report.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HonestER — real ER and clinic wait times, from real patients</title>
+<meta name="description" content="Crowdsourced, anonymous ER and walk-in clinic wait times across Canada.">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
+    <nav class="main-nav">
+      <a class="nav-link" href="about.html">About</a>
+      <a class="btn-report" href="report.html">Report a visit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="search-bar">
+    <input id="facility-search" type="text" placeholder="Search a hospital or clinic name…" />
+  </div>
+
+  <div id="map"></div>
+
+  <div id="facility-list" class="facility-list">
+    <p style="color:var(--text-muted);font-size:14px;">Finding facilities near you…</p>
+  </div>
+</main>
+
+<footer>
+  HonestER is community-reported and anonymous. No submission includes names, emails, or personal identifiers.
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="sample-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

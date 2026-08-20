@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facility details — HonestER</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
+    <nav class="main-nav">
+      <a class="nav-link" href="about.html">About</a>
+      <a class="btn-report" href="report.html">Report a visit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="facility-header">
+    <h1 id="facility-name">Loading…</h1>
+    <p id="facility-meta" class="facility-meta"></p>
+    <div class="rating-summary">
+      <span id="current-rating">—</span> ★ average &middot; <span id="current-wait">—</span> current avg wait
+    </div>
+  </div>
+
+  <div class="card chart-card">
+    <p style="font-weight:600;font-size:14px;margin:0 0 12px;">Wait time trend (last 7 days)</p>
+    <canvas id="trend-chart" height="90"></canvas>
+  </div>
+
+  <div class="card">
+    <p style="font-weight:600;font-size:14px;margin:0 0 6px;">Staff ratings</p>
+    <div id="staff-list"></div>
+  </div>
+</main>
+
+<footer>
+  Ratings and wait times are aggregated from anonymous, community-submitted reports.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="sample-data.js"></script>
+<script src="facility.js"></script>
+</body>
+</html>
