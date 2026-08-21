@@ -10,4 +10,5 @@ const CONFIG = {
   // From Google Cloud Console → APIs & Services → Credentials
   // Must have the "Places API" enabled and be restricted to your domain.
   GOOGLE_MAPS_API_KEY: "AIzaSyDDiEuj_8oNyo8qBDEknGBfA1g2NYyffS0",
+
 };

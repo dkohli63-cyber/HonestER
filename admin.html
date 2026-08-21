@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moderation — HonestER</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
+    <nav class="main-nav">
+      <span id="admin-status" class="nav-link"></span>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div id="login-view" class="admin-login card">
+    <h1 style="font-family:var(--font-display);font-size:20px;margin:0 0 4px;">Admin sign in</h1>
+    <p style="font-size:13px;color:var(--text-secondary);margin:0 0 18px;">Only for the site owner. Create this account in your Supabase dashboard first — see README.md.</p>
+    <div class="field">
+      <label for="admin-email">Email</label>
+      <input id="admin-email" type="email" required />
+    </div>
+    <div class="field">
+      <label for="admin-password">Password</label>
+      <input id="admin-password" type="password" required />
+    </div>
+    <p id="login-error" class="error-text"></p>
+    <button id="login-btn" class="btn primary block">Sign in</button>
+  </div>
+
+  <div id="queue-view" style="display:none;">
+    <h1 class="section-title" style="margin-top:28px;">Pending staff ratings</h1>
+    <p style="font-size:13px;color:var(--text-secondary);margin:-6px 0 20px;">These aren't visible to the public until you approve them.</p>
+    <div id="mod-list" class="card"></div>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

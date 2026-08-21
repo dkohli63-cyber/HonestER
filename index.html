@@ -5,42 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HonestER — real ER and clinic wait times, from real patients</title>
 <meta name="description" content="Crowdsourced, anonymous ER and walk-in clinic wait times across Canada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22301C">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<div class="disclaimer-banner">
+  <strong data-i18n="disclaimer">Heads up: wait times here are reported by patients, not collected from hospitals or health authorities.</strong> <a href="about.html" data-i18n="disclaimer_link">Learn more</a>
+</div>
 
 <header class="site-header">
   <div class="wrap">
     <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
     <nav class="main-nav">
-      <a class="nav-link" href="about.html">About</a>
-      <a class="btn-report" href="report.html">Report a visit</a>
+      <a class="nav-link" href="browse.html" data-i18n="browse_by_province">Browse by province</a>
+      <a class="nav-link" href="about.html" data-i18n="nav_about">About</a>
+      <a class="btn-report" href="report.html" data-i18n="nav_report">Report a visit</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
+
+  <section class="hero fade-in">
+    <svg class="hero-pulse" viewBox="0 0 800 60" preserveAspectRatio="none" aria-hidden="true">
+      <polyline points="0,30 150,30 175,10 200,50 225,30 800,30" fill="none" stroke="#6E8A5E" stroke-width="2"/>
+    </svg>
+    <span class="hero-eyebrow"><i class="ti ti-map-pin"></i> <span data-i18n="hero_eyebrow">Canada-wide, updated by patients</span></span>
+    <h1 data-i18n="hero_title">Know before you go.</h1>
+    <p class="lede" data-i18n="hero_lede">Real ER and walk-in wait times, reported anonymously by people who were just there — so you're not guessing in the parking lot.</p>
+  </section>
+
   <div class="search-bar">
-    <input id="facility-search" type="text" placeholder="Search a hospital or clinic name…" />
+    <i class="ti ti-search"></i>
+    <input id="facility-search" type="text" placeholder="Search a hospital or clinic name…" data-i18n-placeholder="search_placeholder" />
   </div>
 
   <div id="map"></div>
 
+  <h2 class="section-title" data-i18n="section_near_you">Near you</h2>
   <div id="facility-list" class="facility-list">
     <p style="color:var(--text-muted);font-size:14px;">Finding facilities near you…</p>
   </div>
+
+  <svg class="pulse-divider" viewBox="0 0 800 28" preserveAspectRatio="none" aria-hidden="true">
+    <polyline points="0,14 320,14 340,4 360,24 380,14 800,14" fill="none" stroke="#C7D1B9" stroke-width="2"/>
+  </svg>
+
+  <section class="stats-section">
+    <h2 class="section-title" data-i18n="section_why">Why waits vary so much</h2>
+    <div class="stats-grid">
+      <div class="stat-card fade-in">
+        <div class="stat-number">16.1M</div>
+        <div class="stat-label" data-i18n="stat1_label">emergency department visits across Canada in 2024–25 — about 44,000 people every day.</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">1 in 10</div>
+        <div class="stat-label" data-i18n="stat2_label">patients waited more than 14 hours for care in Canadian EDs, per the latest national data.</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-number">12%</div>
+        <div class="stat-label" data-i18n="stat3_label">of ED visits result in a hospital admission — those patients often wait far longer than others.</div>
+      </div>
+    </div>
+    <p class="stats-source" data-i18n="stats_source">Source: Canadian Institute for Health Information (CIHI), National Ambulatory Care Reporting System, 2024–25</p>
+
+    <div class="chart-panel">
+      <p class="chart-panel-title" data-i18n="chart_title">Current average waits near you</p>
+      <p class="chart-panel-sub" data-i18n="chart_sub">Based on HonestER's own patient-reported data for nearby facilities.</p>
+      <canvas id="nearby-chart" height="140"></canvas>
+    </div>
+  </section>
+
 </main>
 
-<footer>
-  HonestER is community-reported and anonymous. No submission includes names, emails, or personal identifiers.
+<footer data-i18n="footer_note">
+  HonestER is community-reported and anonymous. Wait times are not sourced from hospitals, clinics, or health authorities.
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script src="config.js"></script>
 <script src="supabase-client.js"></script>
 <script src="sample-data.js"></script>
 <script src="app.js"></script>
+<script src="i18n.js"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body>
 </html>

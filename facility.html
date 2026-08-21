@@ -4,10 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Facility details — HonestER</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<div class="disclaimer-banner">
+  <strong>Heads up:</strong> wait times here are reported by patients, not collected from hospitals or health authorities. <a href="about.html">Learn more</a>
+</div>
 
 <header class="site-header">
   <div class="wrap">
@@ -20,27 +26,28 @@
 </header>
 
 <main class="wrap">
-  <div class="facility-header">
+  <div class="facility-header fade-in">
     <h1 id="facility-name">Loading…</h1>
     <p id="facility-meta" class="facility-meta"></p>
     <div class="rating-summary">
       <span id="current-rating">—</span> ★ average &middot; <span id="current-wait">—</span> current avg wait
     </div>
+    <p id="freshness-note" class="freshness-badge" style="margin-top:8px;"></p>
   </div>
 
   <div class="card chart-card">
-    <p style="font-weight:600;font-size:14px;margin:0 0 12px;">Wait time trend (last 7 days)</p>
+    <p class="chart-panel-title">Wait time trend (last 7 days)</p>
     <canvas id="trend-chart" height="90"></canvas>
   </div>
 
   <div class="card">
-    <p style="font-weight:600;font-size:14px;margin:0 0 6px;">Staff ratings</p>
+    <p class="chart-panel-title">Staff ratings</p>
     <div id="staff-list"></div>
   </div>
 </main>
 
 <footer>
-  Ratings and wait times are aggregated from anonymous, community-submitted reports.
+  Ratings and wait times are aggregated from anonymous, community-submitted reports — not from the facility itself.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -49,5 +56,6 @@
 <script src="supabase-client.js"></script>
 <script src="sample-data.js"></script>
 <script src="facility.js"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body>
 </html>

@@ -5,16 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Report a visit — HonestER</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22301C">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<div class="disclaimer-banner">
+  <strong data-i18n="disclaimer">Heads up: wait times here are reported by patients, not collected from hospitals or health authorities.</strong> <a href="about.html" data-i18n="disclaimer_link">Learn more</a>
+</div>
 
 <header class="site-header">
   <div class="wrap">
     <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
     <nav class="main-nav">
+      <a class="nav-link" href="browse.html" data-i18n="browse_by_province">Browse by province</a>
       <span class="nav-link" style="display:flex;align-items:center;gap:4px;">
-        <i class="ti ti-lock"></i> Anonymous &middot; no login
+        <i class="ti ti-lock"></i> <span data-i18n="nav_anonymous">Anonymous &middot; no login</span>
       </span>
     </nav>
   </div>
@@ -23,29 +31,43 @@
 <main class="wrap">
   <div class="form-shell">
 
-    <form id="report-form" class="card">
-      <p style="font-size:16px;font-weight:700;margin:0 0 2px;">Report your visit</p>
-      <p style="font-size:13px;color:var(--text-secondary);margin:0 0 18px;">Takes about 5 minutes. No personal info collected.</p>
+    <form id="report-form" class="card fade-in">
+      <h1 class="page-title" data-i18n="form_title">Report your visit</h1>
+      <p style="font-size:13.5px;color:var(--text-secondary);margin:0 0 20px;" data-i18n="form_sub">Takes about 5 minutes. No personal info collected.</p>
 
       <div class="field">
-        <label for="facility-input">Hospital or clinic</label>
+        <label for="facility-input" data-i18n="label_facility">Hospital or clinic</label>
         <input id="facility-input" type="text" placeholder="Start typing a name…" autocomplete="off" required />
       </div>
 
       <div class="two-col">
         <div class="field">
-          <label for="checkin-time">Check-in time</label>
-          <input id="checkin-time" type="time" required />
+          <label data-i18n="label_checkin">Check-in time</label>
+          <div class="time-picker">
+            <select id="checkin-hour" required><option value="">Hr</option></select>
+            <select id="checkin-minute" required><option value="">Min</option></select>
+            <select id="checkin-ampm" required>
+              <option value="AM">AM</option>
+              <option value="PM">PM</option>
+            </select>
+          </div>
         </div>
         <div class="field">
-          <label for="seen-time">Seen by doctor</label>
-          <input id="seen-time" type="time" required />
+          <label data-i18n="label_seen">Seen by doctor</label>
+          <div class="time-picker">
+            <select id="seen-hour" required><option value="">Hr</option></select>
+            <select id="seen-minute" required><option value="">Min</option></select>
+            <select id="seen-ampm" required>
+              <option value="AM">AM</option>
+              <option value="PM">PM</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <div class="two-col">
         <div class="field">
-          <label for="age-bracket">Age bracket</label>
+          <label for="age-bracket" data-i18n="label_age">Age bracket</label>
           <select id="age-bracket" required>
             <option value="">Select…</option>
             <option value="0-12">0–12</option>
@@ -55,45 +77,69 @@
           </select>
         </div>
         <div class="field">
-          <label for="visit-category">Visit category</label>
+          <label for="visit-category" data-i18n="label_reason">Reason for visit</label>
           <select id="visit-category" required>
             <option value="">Select…</option>
-            <option value="injury">Injury</option>
-            <option value="pain">Pain</option>
-            <option value="breathing_cardiac">Breathing / cardiac</option>
-            <option value="pediatric_illness">Pediatric illness</option>
-            <option value="mental_health">Mental health</option>
-            <option value="other">Other</option>
+            <optgroup label="Pain">
+              <option value="general_pain">General pain</option>
+              <option value="abdominal_pain">Abdominal pain</option>
+              <option value="pelvic_pain">Pelvic pain</option>
+              <option value="chest_pain">Chest pain</option>
+              <option value="back_pain">Back pain</option>
+              <option value="headache_migraine">Headache / migraine</option>
+              <option value="kidney_stones">Kidney stones</option>
+            </optgroup>
+            <optgroup label="Injury">
+              <option value="cuts_lacerations">Cuts / lacerations</option>
+              <option value="bruises">Bruises</option>
+              <option value="fracture_broken_bone">Fracture / broken bone</option>
+              <option value="sprain_strain">Sprain / strain</option>
+              <option value="burn">Burn</option>
+              <option value="head_injury">Head injury</option>
+            </optgroup>
+            <optgroup label="Illness">
+              <option value="fever_chills">Fever / chills</option>
+              <option value="infection">Infection</option>
+              <option value="breathing_cardiac">Breathing / cardiac</option>
+              <option value="allergic_reaction">Allergic reaction</option>
+              <option value="cancer_related">Cancer-related</option>
+              <option value="pregnancy_related">Pregnancy-related</option>
+              <option value="pediatric_illness">Pediatric illness</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option value="mental_health">Mental health</option>
+              <option value="other">Other</option>
+            </optgroup>
           </select>
         </div>
       </div>
 
       <div class="field">
-        <label>Overall rating</label>
+        <label data-i18n="label_rating">Overall rating</label>
         <div id="overall-stars" class="stars">
           <i class="ti ti-star"></i><i class="ti ti-star"></i><i class="ti ti-star"></i><i class="ti ti-star"></i><i class="ti ti-star"></i>
         </div>
       </div>
 
       <div class="field">
-        <label>Doctors or nurses you saw (optional)</label>
+        <label data-i18n="label_staff">Doctors or nurses you saw (optional)</label>
         <div id="staff-rows"></div>
         <button type="button" id="add-staff-btn" class="add-staff-btn">
-          <i class="ti ti-plus"></i> Add a doctor or nurse
+          <i class="ti ti-plus"></i> <span data-i18n="add_staff">Add a doctor or nurse</span>
         </button>
       </div>
 
       <p id="form-error" class="error-text"></p>
 
-      <button type="submit" class="btn primary block" style="margin-top:8px;">Submit report</button>
-      <p class="privacy-note">No names, emails, or IP addresses are stored with your report.</p>
+      <button type="submit" class="btn primary block" style="margin-top:8px;" data-i18n="submit">Submit report</button>
+      <p class="privacy-note" data-i18n="privacy_note">No names, emails, or IP addresses are stored with your report.</p>
     </form>
 
     <div id="confirmation" class="card">
       <i class="ti ti-circle-check"></i>
-      <h2 style="margin:12px 0 6px;">Thanks for the report</h2>
-      <p style="color:var(--text-secondary);">Your submission helps the next person know what to expect.</p>
-      <a href="index.html" class="btn primary" style="margin-top:16px;display:inline-flex;">Back to map</a>
+      <h2 style="margin:12px 0 6px;" data-i18n="confirmation_title">Thanks for the report</h2>
+      <p style="color:var(--text-secondary);" data-i18n="confirmation_sub">Your submission helps the next person know what to expect.</p>
+      <a href="index.html" class="btn primary" style="margin-top:16px;display:inline-flex;" data-i18n="back_to_map">Back to map</a>
     </div>
 
   </div>
@@ -107,5 +153,6 @@
 <script src="config.js"></script>
 <script src="supabase-client.js"></script>
 <script src="report.js"></script>
+<script src="i18n.js"></script>
 </body>
 </html>

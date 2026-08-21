@@ -10,10 +10,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (supabaseClient) {
     const { data: f } = await supabaseClient.from("facility_wait_stats").select("*").eq("id", id).single();
     facility = f;
+    // staff_ratings links to a visit, not directly to a facility — join through visits,
+    // and only show ratings an admin has approved (see admin.html).
     const { data: s } = await supabaseClient
       .from("staff_ratings")
-      .select("staff_name, rating")
-      .eq("facility_id", id);
+      .select("staff_name, rating, visits!inner(facility_id)")
+      .eq("visits.facility_id", id)
+      .eq("approved", true);
     staff = aggregateStaff(s || []);
     trend = await loadTrend(id);
   } else {
@@ -55,6 +58,14 @@ function renderHeader(f) {
     `${f.type === "er" ? "Emergency room" : "Walk-in clinic"} · ${f.city}, ${f.province}`;
   document.getElementById("current-wait").textContent = formatMinutes(f.avg_wait_minutes);
   document.getElementById("current-rating").textContent = f.avg_rating ? f.avg_rating.toFixed(1) : "—";
+
+  const freshEl = document.getElementById("freshness-note");
+  if (freshEl) {
+    const count = f.recent_report_count || 0;
+    freshEl.innerHTML = count
+      ? `<i class="ti ti-bolt"></i> Based on ${count} report${count === 1 ? "" : "s"} in the last 48 hours`
+      : `<i class="ti ti-info-circle"></i> No reports in the last 48 hours — this estimate may be outdated`;
+  }
 }
 
 function renderStaff(staff) {

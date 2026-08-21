@@ -75,6 +75,38 @@ async function loadFacilities() {
 
   renderMarkers(facilities);
   renderList(facilities);
+  renderNearbyChart(facilities);
+}
+
+let nearbyChartInstance;
+function renderNearbyChart(facilities) {
+  const canvas = document.getElementById("nearby-chart");
+  if (!canvas) return;
+  const top = facilities.filter((f) => f.avg_wait_minutes != null).slice(0, 6);
+  if (nearbyChartInstance) nearbyChartInstance.destroy();
+  if (!top.length) {
+    canvas.parentElement.querySelector(".chart-panel-sub").textContent =
+      "No reports yet for facilities near you — be the first.";
+    return;
+  }
+  nearbyChartInstance = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels: top.map((f) => f.name),
+      datasets: [
+        {
+          data: top.map((f) => Math.round(f.avg_wait_minutes)),
+          backgroundColor: "#6E8A5E",
+          borderRadius: 6,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      plugins: { legend: { display: false } },
+      scales: { x: { ticks: { callback: (v) => `${v}m` } } },
+    },
+  });
 }
 
 function renderMarkers(facilities) {
@@ -100,6 +132,7 @@ function renderList(facilities) {
       <div>
         <p class="facility-name">${escapeHtml(f.name)}</p>
         <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${f.distance.toFixed(1)} km &middot; ${escapeHtml(f.city)}, ${escapeHtml(f.province)}</p>
+        ${freshnessBadge(f.recent_report_count)}
       </div>
       <div style="text-align:right;">
         <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
@@ -112,6 +145,12 @@ function renderList(facilities) {
   if (facilities.length === 0) {
     list.innerHTML = `<p style="color:var(--text-muted);font-size:14px;">No facilities found yet. Be the first to <a href="report.html">report a visit</a>.</p>`;
   }
+}
+
+function freshnessBadge(count) {
+  if (!count) return "";
+  const label = count === 1 ? "1 report in the last 48h" : `${count} reports in the last 48h`;
+  return `<span class="freshness-badge"><i class="ti ti-bolt"></i> ${label}</span>`;
 }
 
 async function handleSearchInput(e) {

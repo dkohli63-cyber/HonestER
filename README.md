@@ -9,35 +9,64 @@ submissions, follow the steps below.
 ## 1. Create your database (Supabase — free)
 
 1. Go to [supabase.com](https://supabase.com) and create a free account + new project.
-2. Once it's created, open **SQL Editor → New query**, paste in the entire
-   contents of `supabase/schema.sql`, and run it. This creates all the
-   tables, the aggregation view, and the security rules that let anonymous
-   visitors submit reports but never edit or delete existing ones.
-3. Go to **Settings → API**. Copy the **Project URL** and the **anon public**
-   key.
-4. Open `js/config.js` and paste them in:
-   ```js
-   SUPABASE_URL: "https://your-project.supabase.co",
-   SUPABASE_ANON_KEY: "eyJ...",
-   ```
+2. Open **SQL Editor → New query**, paste in the entire contents of
+   `schema.sql`, and run it. This creates all the tables, the aggregation
+   view, and the security rules — including the moderation setup for staff
+   ratings (see step 4).
+3. Go to **Settings → API**. Copy the **Project URL** and the **anon public** key.
+4. Open `config.js` and paste them in.
 
-## 2. Turn on facility autocomplete (Google Places API)
+*(Already done if you're picking this up mid-setup — your keys are already in `config.js`.)*
 
-1. Go to [console.cloud.google.com](https://console.cloud.google.com), create
-   a project, and enable the **Places API**.
-2. Create an API key under **APIs & Services → Credentials**.
-3. **Restrict the key** to your domain (Application restrictions → HTTP
-   referrers) once you know it, so nobody else can use your key.
-4. Paste the key into `js/config.js`:
-   ```js
-   GOOGLE_MAPS_API_KEY: "your-key-here",
-   ```
-   Google gives a monthly free credit that comfortably covers a
-   small-to-medium site's autocomplete usage — check current pricing at
-   [developers.google.com/maps/billing](https://developers.google.com/maps/billing)
-   before launch, since pricing can change.
+## 2. Facility autocomplete (Google Places API)
 
-## 3. Test locally
+Already set up if you followed the earlier steps — `config.js` has your
+Google Places key. If you ever need to redo it: enable **Places API** and
+**Maps JavaScript API** in Google Cloud Console, create a key under
+Credentials, and restrict it to your site's domain.
+
+## 3. Set up staff rating moderation (new)
+
+Doctor and nurse ratings are now held back from public view until you
+approve them — this protects against unverified claims about a named,
+identifiable person going live instantly. To moderate:
+
+1. In Supabase, go to **Authentication → Users → Add user**, and create one
+   account for yourself (email + password). This is the only account that
+   should exist — leave public sign-ups off, which is the default.
+2. Visit `admin.html` on your live site and sign in with that email/password.
+3. You'll see a queue of pending ratings with Approve/Reject buttons.
+   Approved ones become visible on the facility's page; rejected ones are
+   deleted. Nothing is public until you act on it.
+
+`admin.html` has `<meta name="robots" content="noindex">` so search engines
+won't index it, but the URL itself isn't secret — anyone who finds it just
+can't get past the sign-in without your credentials.
+
+## 4. French language toggle
+
+No setup needed — there's a language button in the top-left of the nav on
+every page (shows "FR" in English mode, "EN" in French mode). It's
+implemented in `i18n.js` and remembers the visitor's choice. Translation
+coverage is complete for the homepage, report form, and browse pages; the
+About page and facility detail page are currently English-only — let me
+know if you'd like those translated too.
+
+## 5. Browse by province
+
+`browse.html` lists all 13 provinces/territories with a live count of
+listed facilities, and clicking one filters to just that province's
+results — this also gives you shareable, bookmarkable URLs like
+`browse.html?province=ON` for each region.
+
+## 6. Install as an app (PWA)
+
+The site has a manifest and service worker already wired in, so on both
+desktop and mobile, visitors can "Install" or "Add to Home Screen" from
+their browser menu, and it'll open in its own window/icon like a native
+app, with the core pages cached for faster repeat visits.
+
+## 7. Test locally
 
 Any static file server works. From this folder, run:
 ```
@@ -45,54 +74,46 @@ python3 -m http.server 8000
 ```
 Then open `http://localhost:8000` in your browser.
 
-## 4. Put it on GitHub
+## 8. Put it on GitHub
 
 ```
 git init
 git add .
-git commit -m "Initial HonestER site"
+git commit -m "HonestER site update"
 git branch -M main
 git remote add origin https://github.com/YOUR_USERNAME/honester.git
 git push -u origin main
 ```
+If you already have a repo connected, just upload/overwrite the changed
+files through GitHub's web uploader the same way as before.
 
-## 5. Publish it live
+## 9. Publish it live
 
-Easiest free option: **GitHub Pages**.
-1. In your GitHub repo, go to **Settings → Pages**.
-2. Under "Build and deployment", set Source to **Deploy from a branch**,
-   branch `main`, folder `/ (root)`.
-3. Save — your site will be live at `https://YOUR_USERNAME.github.io/honester`
-   within a minute or two.
-
-Alternatives with similarly free tiers: **Netlify** or **Vercel** — both let
-you drag-and-drop this folder or connect the GitHub repo directly, and both
-support custom domains.
-
-## 6. Connect your domain
-
-Once you've bought a domain (e.g. through GoDaddy), add a custom domain in
-your GitHub Pages / Netlify / Vercel settings, then create the DNS records
-they give you (usually a CNAME or a few A records) in your domain
-registrar's DNS panel. It typically takes a few minutes to a few hours to
-go live.
+Already live via **GitHub Pages** if you followed the earlier setup. No
+change needed there — just push/upload the updated files and it redeploys
+automatically within a minute or two.
 
 ## Notes on abuse prevention
 
-The database rules already stop anyone from editing or deleting someone
-else's report. For stronger protection against fake bulk submissions before
-you get real traffic, consider turning on Supabase's built-in bot/abuse
-protection (Project Settings → Auth → Bot and Abuse Protection) — see the
-comment at the bottom of `supabase/schema.sql`.
+The database rules stop anyone from editing or deleting someone else's
+report, and staff ratings specifically require your manual approval before
+they're public. For stronger protection against fake bulk submissions,
+consider turning on Supabase's built-in bot/abuse protection (Project
+Settings → Auth → Bot and Abuse Protection).
 
 ## Project structure
 
 ```
-index.html      Homepage — map + nearby facility list
-report.html     The 5-minute anonymous report form
-facility.html   Per-facility wait-time trend + staff ratings
-about.html      Triage explanation + privacy notes
-css/style.css   Sage green / white theme, shared across all pages
-js/config.js    <-- the only file you need to edit (API keys)
-supabase/schema.sql  Database schema — run once in Supabase
+index.html      Homepage — hero, stats, map, nearby facility list, chart
+report.html     The 5-minute anonymous report form (AM/PM times, full condition list)
+facility.html   Per-facility wait-time trend, freshness note, approved staff ratings
+browse.html     Browse-by-province listing
+about.html      Triage explanation, disclaimer, privacy notes
+admin.html      Sign-in-protected moderation queue for staff ratings
+style.css       Shared visual design (Fraunces + Inter, sage/pine palette)
+i18n.js         EN/FR translation layer
+config.js       <-- the only file you normally need to edit (API keys)
+manifest.json / sw.js   PWA install support
+schema.sql      Database schema — safe to re-run any time
+icon-192.png / icon-512.png   App icons
 ```

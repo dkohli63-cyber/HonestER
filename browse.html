@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse by province — HonestER</title>
+<meta name="description" content="Browse ER and walk-in clinic wait times by province across Canada.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
+    <nav class="main-nav">
+      <a class="nav-link" href="about.html" data-i18n="nav_about">About</a>
+      <a class="btn-report" href="report.html" data-i18n="nav_report">Report a visit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="section-title fade-in" style="margin-top:28px;" data-i18n="browse_by_province">Browse by province</h1>
+
+  <div id="province-grid" class="province-grid">
+    <p style="color:var(--text-muted);font-size:14px;">Loading…</p>
+  </div>
+
+  <div id="province-detail" style="display:none;">
+    <h2 id="province-detail-title" class="section-title"></h2>
+    <div id="province-facility-list" class="facility-list"></div>
+  </div>
+</main>
+
+<footer data-i18n="footer_note">
+  HonestER is community-reported and anonymous. Wait times are not sourced from hospitals, clinics, or health authorities.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="sample-data.js"></script>
+<script src="browse.js"></script>
+<script src="i18n.js"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

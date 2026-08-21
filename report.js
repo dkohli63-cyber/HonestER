@@ -3,11 +3,46 @@ let overallRating = 0;
 let staffCount = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
+  populateTimeDropdowns();
   initGooglePlaces();
   initStars(document.getElementById("overall-stars"), (v) => (overallRating = v));
   document.getElementById("add-staff-btn").addEventListener("click", addStaffRow);
   document.getElementById("report-form").addEventListener("submit", handleSubmit);
 });
+
+function populateTimeDropdowns() {
+  const hourIds = ["checkin-hour", "seen-hour"];
+  const minuteIds = ["checkin-minute", "seen-minute"];
+  hourIds.forEach((id) => {
+    const sel = document.getElementById(id);
+    for (let h = 1; h <= 12; h++) {
+      const opt = document.createElement("option");
+      opt.value = h;
+      opt.textContent = h;
+      sel.appendChild(opt);
+    }
+  });
+  minuteIds.forEach((id) => {
+    const sel = document.getElementById(id);
+    for (let m = 0; m < 60; m++) {
+      const opt = document.createElement("option");
+      opt.value = m;
+      opt.textContent = String(m).padStart(2, "0");
+      sel.appendChild(opt);
+    }
+  });
+}
+
+// Converts 12-hour dropdown values into a 24-hour "HH:MM" string for storage.
+function to24Hour(hourEl, minuteEl, ampmEl) {
+  const h12 = Number(hourEl.value);
+  const m = Number(minuteEl.value);
+  const ampm = ampmEl.value;
+  if (!h12 || Number.isNaN(m)) return null;
+  let h24 = h12 % 12;
+  if (ampm === "PM") h24 += 12;
+  return `${String(h24).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
 
 // Google Places Autocomplete — lets people type "surrey hospital" and match
 // the real, canonical facility name/location instead of typing it by hand.
@@ -82,8 +117,16 @@ function addStaffRow() {
 async function handleSubmit(e) {
   e.preventDefault();
 
-  const checkin = document.getElementById("checkin-time").value;
-  const seenBy = document.getElementById("seen-time").value;
+  const checkin = to24Hour(
+    document.getElementById("checkin-hour"),
+    document.getElementById("checkin-minute"),
+    document.getElementById("checkin-ampm")
+  );
+  const seenBy = to24Hour(
+    document.getElementById("seen-hour"),
+    document.getElementById("seen-minute"),
+    document.getElementById("seen-ampm")
+  );
   const ageBracket = document.getElementById("age-bracket").value;
   const category = document.getElementById("visit-category").value;
 
@@ -96,12 +139,12 @@ async function handleSubmit(e) {
   if (!checkin || !seenBy) {
     return showError("Fill in both check-in and seen-by-doctor times.");
   }
-  if (!overallRating) {
-    return showError("Give an overall star rating.");
-  }
   if (new Date(`1970-01-01T${seenBy}`) < new Date(`1970-01-01T${checkin}`)) {
     // simple same-day sanity check; real app should use full datetimes
     return showError("Seen-by-doctor time should be after check-in time.");
+  }
+  if (!overallRating) {
+    return showError("Give an overall star rating.");
   }
 
   const staffRows = Array.from(document.querySelectorAll(".staff-row"))
@@ -146,7 +189,6 @@ async function handleSubmit(e) {
 }
 
 async function submitToSupabase(payload) {
-  // 1. Ensure the facility exists (upsert by google place_id if we have one)
   let facilityId;
   if (payload.facility_place_id) {
     const { data: existing } = await supabaseClient
@@ -175,7 +217,6 @@ async function submitToSupabase(payload) {
     throw new Error("Please select a facility from the suggestions list.");
   }
 
-  // 2. Insert the visit (fully anonymous — no user id, no name, no email)
   const { data: visit, error: visitError } = await supabaseClient
     .from("visits")
     .insert({
@@ -190,7 +231,6 @@ async function submitToSupabase(payload) {
     .single();
   if (visitError) throw visitError;
 
-  // 3. Insert staff ratings, if any
   if (payload.staff.length) {
     const rows = payload.staff.map((s) => ({
       visit_id: visit.id,

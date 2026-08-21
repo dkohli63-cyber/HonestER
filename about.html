@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About — HonestER</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,9 +21,12 @@
 </header>
 
 <main class="wrap">
-  <div class="about-content">
+  <div class="about-content fade-in">
     <h1>About HonestER</h1>
-    <p>HonestER is a free, anonymous, community-reported directory of ER and walk-in clinic wait times across Canada. Nobody logs in, nobody enters their name, and no report can be traced back to the person who submitted it.</p>
+
+    <div class="card" style="background:var(--amber-wash);border-color:#EFDFC0;">
+      <p style="margin:0;font-size:14px;color:var(--amber-text);"><strong>Important:</strong> every wait time and rating on this site is self-reported by patients, anonymously, through our form. None of it is collected from hospitals, walk-in clinics, or provincial health authorities, and it hasn't been verified against official records. Treat it as a helpful estimate from other patients, not an official source.</p>
+    </div>
 
     <h2>Why wait times aren't first-come, first-served</h2>
     <p>Canadian emergency rooms use the CTAS (Canadian Triage and Acuity Scale) to assess how urgent each patient's condition is. A patient with a life-threatening issue is seen before someone with a minor injury, regardless of who arrived first. That's why two people can arrive at the same time and have very different waits — it isn't a mistake, it's triage doing its job.</p>
@@ -28,10 +34,13 @@
     <h2>What we collect</h2>
     <ul>
       <li>Check-in and seen-by-doctor times</li>
-      <li>A broad age bracket and visit category (not a diagnosis)</li>
+      <li>A broad age bracket and general reason for visit (not a diagnosis)</li>
       <li>Star ratings for the facility and, optionally, for the doctor or nurse you saw</li>
     </ul>
     <p>We never ask for your name, contact info, health card number, or specific diagnosis.</p>
+
+    <h2>About the HonestAI chat</h2>
+    <p>The chat bubble in the corner, HonestAI, is a general-purpose AI assistant powered by Grok (built by xAI) — the same kind of assistant as ChatGPT or Claude. It is not connected to HonestER's wait-time data, does not know your report, and does not give medical advice. Its answers are AI-generated and should be treated the same way you'd treat any AI chatbot's answers: useful for general questions, not a substitute for a doctor.</p>
 
     <h2>Keeping the data honest</h2>
     <p>Submissions go through basic automated checks (like making sure times are realistic) and rate limits to make bulk or fake submissions harder, without requiring any personal information to do it.</p>
@@ -41,5 +50,8 @@
 <footer>
   HonestER is community-reported and anonymous.
 </footer>
+
+<script src="config.js"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body>
 </html>
