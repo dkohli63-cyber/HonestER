@@ -65,21 +65,37 @@ window.setupAutocomplete = function () {
   const autocomplete = new google.maps.places.Autocomplete(input, {
     types: ["health"],
     componentRestrictions: { country: "ca" },
-    fields: ["place_id", "name", "geometry", "formatted_address", "types"],
+    fields: ["place_id", "name", "geometry", "formatted_address", "address_components", "types"],
   });
 
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
     if (!place.geometry) return;
+    const { city, province } = parseAddressComponents(place.address_components || []);
     selectedPlace = {
       place_id: place.place_id,
       name: place.name,
       lat: place.geometry.location.lat(),
       lng: place.geometry.location.lng(),
       address: place.formatted_address,
+      city,
+      province,
     };
   });
 };
+
+// Google's admin-area short_name for Canada is already the 2-letter code (BC, ON, AB...)
+// which is exactly the format browse.html filters by — no extra mapping needed.
+function parseAddressComponents(components) {
+  let city = null;
+  let province = null;
+  components.forEach((c) => {
+    if (c.types.includes("locality")) city = c.long_name;
+    if (!city && c.types.includes("postal_town")) city = c.long_name;
+    if (c.types.includes("administrative_area_level_1")) province = c.short_name;
+  });
+  return { city, province };
+}
 
 function initStars(container, onChange) {
   const icons = container.querySelectorAll("i");
@@ -159,6 +175,8 @@ async function handleSubmit(e) {
     facility_place_id: selectedPlace ? selectedPlace.place_id : null,
     facility_lat: selectedPlace ? selectedPlace.lat : null,
     facility_lng: selectedPlace ? selectedPlace.lng : null,
+    facility_city: selectedPlace ? selectedPlace.city : null,
+    facility_province: selectedPlace ? selectedPlace.province : null,
     checkin_time: checkin,
     seen_by_doctor_time: seenBy,
     age_bracket: ageBracket,
@@ -207,6 +225,8 @@ async function submitToSupabase(payload) {
           google_place_id: payload.facility_place_id,
           lat: payload.facility_lat,
           lng: payload.facility_lng,
+          city: payload.facility_city,
+          province: payload.facility_province,
         })
         .select("id")
         .single();

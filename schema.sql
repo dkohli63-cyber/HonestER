@@ -31,10 +31,11 @@ create table visits (
   seen_by_doctor_time time not null,
   age_bracket text check (age_bracket in ('0-12','13-17','18-64','65+')),
   visit_category text check (visit_category in (
-    'general_pain','abdominal_pain','pelvic_pain','chest_pain','back_pain','headache_migraine','kidney_stones',
-    'cuts_lacerations','bruises','fracture_broken_bone','sprain_strain','burn','head_injury',
-    'fever_chills','infection','breathing_cardiac','allergic_reaction','cancer_related','pregnancy_related','pediatric_illness',
-    'mental_health','other'
+    'general_pain','abdominal_pain','pelvic_pain','chest_pain','back_pain','headache_migraine','kidney_stones','dental_emergency',
+    'cuts_lacerations','bruises','fracture_broken_bone','sprain_strain','burn','head_injury','eye_injury','animal_insect_bite','foreign_object',
+    'fever_chills','infection','breathing_cardiac','stroke_symptoms','seizure','diabetic_emergency','allergic_reaction','poisoning_overdose',
+    'cancer_related','pregnancy_related','pediatric_illness','respiratory_infection','urinary_uti','ent_issue','skin_condition_rash','dizziness_fainting',
+    'mental_health','anxiety_panic','dehydration','other'
   )),
   overall_rating int check (overall_rating between 1 and 5),
   created_at timestamptz default now()

@@ -2,7 +2,10 @@ let map;
 let userLatLng = { lat: 49.2827, lng: -123.1207 }; // fallback: Vancouver, BC
 
 document.addEventListener("DOMContentLoaded", async () => {
+  showSkeletons();
   initMap();
+  initStatCountUps();
+  loadWeeklyCounter();
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -27,12 +30,74 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+function showSkeletons() {
+  const list = document.getElementById("facility-list");
+  if (list) {
+    list.innerHTML = Array(3).fill('<div class="skeleton skeleton-card"></div>').join("");
+  }
+}
+
 function initMap() {
   map = L.map("map", { zoomControl: true }).setView([userLatLng.lat, userLatLng.lng], 11);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "&copy; OpenStreetMap contributors",
     maxZoom: 18,
   }).addTo(map);
+}
+
+// Animates the homepage stat cards counting up when they scroll into view.
+function initStatCountUps() {
+  const targets = [
+    { id: "stat-visits", value: 16.1, formatter: (n) => `${n.toFixed(1)}M` },
+    { id: "stat-admitted", value: 12, formatter: (n) => `${Math.round(n)}%` },
+  ];
+  const els = targets.map((t) => document.getElementById(t.id)).filter(Boolean);
+  if (!els.length) return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const t = targets.find((t) => t.id === entry.target.id);
+        if (t) countUpTo(entry.target, t.value, { formatter: t.formatter });
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.4 }
+  );
+  els.forEach((el) => observer.observe(el));
+}
+
+// Real count of reports submitted in the last 7 days — falls back to a
+// clearly-labelled estimate when Supabase isn't connected (demo mode).
+async function loadWeeklyCounter() {
+  const el = document.getElementById("weekly-counter-number");
+  if (!el) return;
+  let count = null;
+  if (supabaseClient) {
+    const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const { count: c, error } = await supabaseClient
+      .from("visits")
+      .select("*", { count: "exact", head: true })
+      .gte("created_at", since);
+    if (!error) count = c;
+  }
+  if (count === null) {
+    document.getElementById("weekly-counter-wrap").innerHTML =
+      '<span style="color:var(--text-muted);">Report counter connects once your database is live.</span>';
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          countUpTo(el, count, { formatter: (n) => Math.round(n) });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+  observer.observe(el);
 }
 
 function youIcon() {
@@ -55,7 +120,6 @@ async function loadFacilities() {
   let facilities;
 
   if (supabaseClient) {
-    // Expects a Postgres view `facility_wait_stats` — see supabase/schema.sql
     const { data, error } = await supabaseClient
       .from("facility_wait_stats")
       .select("*");
@@ -123,21 +187,22 @@ function renderList(facilities) {
   list.innerHTML = "";
   facilities.forEach((f) => {
     const long = f.avg_wait_minutes && f.avg_wait_minutes > 180;
-    const card = document.createElement("a");
-    card.href = `facility.html?id=${f.id}`;
+    const shareText = `ER/clinic wait at ${f.name}: ${formatMinutes(f.avg_wait_minutes)} (via HonestER)`;
+    const card = document.createElement("div");
     card.className = "facility-card";
-    card.style.textDecoration = "none";
-    card.style.color = "inherit";
     card.innerHTML = `
-      <div>
-        <p class="facility-name">${escapeHtml(f.name)}</p>
-        <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${f.distance.toFixed(1)} km &middot; ${escapeHtml(f.city)}, ${escapeHtml(f.province)}</p>
-        ${freshnessBadge(f.recent_report_count)}
-      </div>
-      <div style="text-align:right;">
-        <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
-        <div class="wait-sub">avg wait</div>
-      </div>
+      <a href="facility.html?id=${f.id}" style="text-decoration:none;color:inherit;flex:1;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <p class="facility-name">${escapeHtml(f.name)}</p>
+          <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${f.distance.toFixed(1)} km &middot; ${escapeHtml(f.city)}, ${escapeHtml(f.province)}</p>
+          ${freshnessBadge(f.recent_report_count)}
+        </div>
+        <div style="text-align:right;margin-right:10px;">
+          <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
+          <div class="wait-sub">avg wait</div>
+        </div>
+      </a>
+      <button class="share-btn" data-share-text="${escapeHtml(shareText)}" data-share-url="${window.location.origin}${window.location.pathname.replace("index.html", "")}facility.html?id=${f.id}" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
     `;
     list.appendChild(card);
   });
@@ -145,12 +210,13 @@ function renderList(facilities) {
   if (facilities.length === 0) {
     list.innerHTML = `<p style="color:var(--text-muted);font-size:14px;">No facilities found yet. Be the first to <a href="report.html">report a visit</a>.</p>`;
   }
+  wireShareButtons(list);
 }
 
 function freshnessBadge(count) {
   if (!count) return "";
   const label = count === 1 ? "1 report in the last 48h" : `${count} reports in the last 48h`;
-  return `<span class="freshness-badge"><i class="ti ti-bolt"></i> ${label}</span>`;
+  return `<span class="freshness-badge"><span class="live-dot"></span>${label}</span>`;
 }
 
 async function handleSearchInput(e) {

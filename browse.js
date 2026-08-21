@@ -56,10 +56,12 @@ function showProvinceDetail(code, facilities) {
   list.innerHTML = facilities
     .map((f) => {
       const long = f.avg_wait_minutes && f.avg_wait_minutes > 180;
+      const count = f.recent_report_count || 0;
       return `<a href="facility.html?id=${f.id}" class="facility-card" style="text-decoration:none;color:inherit;">
         <div>
           <p class="facility-name">${escapeHtml(f.name)}</p>
           <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${escapeHtml(f.city || "")}</p>
+          ${count ? `<span class="freshness-badge"><span class="live-dot"></span>${count} report${count === 1 ? "" : "s"} in the last 48h</span>` : ""}
         </div>
         <div style="text-align:right;">
           <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>

@@ -63,8 +63,15 @@ function renderHeader(f) {
   if (freshEl) {
     const count = f.recent_report_count || 0;
     freshEl.innerHTML = count
-      ? `<i class="ti ti-bolt"></i> Based on ${count} report${count === 1 ? "" : "s"} in the last 48 hours`
+      ? `<span class="live-dot"></span>Based on ${count} report${count === 1 ? "" : "s"} in the last 48 hours`
       : `<i class="ti ti-info-circle"></i> No reports in the last 48 hours — this estimate may be outdated`;
+  }
+
+  const shareBtn = document.getElementById("facility-share-btn");
+  if (shareBtn) {
+    shareBtn.dataset.shareText = `ER/clinic wait at ${f.name}: ${formatMinutes(f.avg_wait_minutes)} (via HonestER)`;
+    shareBtn.dataset.shareUrl = window.location.href;
+    wireShareButtons(document);
   }
 }
 

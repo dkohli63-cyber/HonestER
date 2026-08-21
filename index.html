@@ -50,7 +50,9 @@
 
   <h2 class="section-title" data-i18n="section_near_you">Near you</h2>
   <div id="facility-list" class="facility-list">
-    <p style="color:var(--text-muted);font-size:14px;">Finding facilities near you…</p>
+    <div class="skeleton skeleton-card"></div>
+    <div class="skeleton skeleton-card"></div>
+    <div class="skeleton skeleton-card"></div>
   </div>
 
   <svg class="pulse-divider" viewBox="0 0 800 28" preserveAspectRatio="none" aria-hidden="true">
@@ -59,23 +61,47 @@
 
   <section class="stats-section">
     <h2 class="section-title" data-i18n="section_why">Why waits vary so much</h2>
+
+    <div class="card reveal" style="margin-bottom:20px;">
+      <p class="chart-panel-title" data-i18n="triage_title">How Canadian ERs decide who's seen next</p>
+      <div class="triage-steps">
+        <div class="triage-step">
+          <i class="ti ti-clipboard-check" aria-hidden="true"></i>
+          <p data-i18n="triage_step1">You're assessed at check-in using CTAS, a 5-level urgency scale used across Canada.</p>
+        </div>
+        <div class="triage-step">
+          <i class="ti ti-arrows-sort" aria-hidden="true"></i>
+          <p data-i18n="triage_step2">The most urgent cases are seen first — not the first to arrive.</p>
+        </div>
+        <div class="triage-step">
+          <i class="ti ti-refresh" aria-hidden="true"></i>
+          <p data-i18n="triage_step3">That's why your wait can shift as more urgent cases arrive after you.</p>
+        </div>
+      </div>
+    </div>
+
     <div class="stats-grid">
-      <div class="stat-card fade-in">
-        <div class="stat-number">16.1M</div>
+      <div class="stat-card reveal">
+        <div class="stat-number" id="stat-visits">0M</div>
         <div class="stat-label" data-i18n="stat1_label">emergency department visits across Canada in 2024–25 — about 44,000 people every day.</div>
       </div>
-      <div class="stat-card fade-in">
+      <div class="stat-card reveal">
         <div class="stat-number">1 in 10</div>
         <div class="stat-label" data-i18n="stat2_label">patients waited more than 14 hours for care in Canadian EDs, per the latest national data.</div>
       </div>
-      <div class="stat-card fade-in">
-        <div class="stat-number">12%</div>
+      <div class="stat-card reveal">
+        <div class="stat-number" id="stat-admitted">0%</div>
         <div class="stat-label" data-i18n="stat3_label">of ED visits result in a hospital admission — those patients often wait far longer than others.</div>
       </div>
     </div>
     <p class="stats-source" data-i18n="stats_source">Source: Canadian Institute for Health Information (CIHI), National Ambulatory Care Reporting System, 2024–25</p>
 
-    <div class="chart-panel">
+    <p class="weekly-counter" id="weekly-counter-wrap">
+      <span data-i18n="weekly_counter_pre">Reports submitted this week:</span>
+      <strong id="weekly-counter-number">0</strong>
+    </p>
+
+    <div class="chart-panel reveal">
       <p class="chart-panel-title" data-i18n="chart_title">Current average waits near you</p>
       <p class="chart-panel-sub" data-i18n="chart_sub">Based on HonestER's own patient-reported data for nearby facilities.</p>
       <canvas id="nearby-chart" height="140"></canvas>
@@ -94,6 +120,7 @@
 <script src="config.js"></script>
 <script src="supabase-client.js"></script>
 <script src="sample-data.js"></script>
+<script src="effects.js"></script>
 <script src="app.js"></script>
 <script src="i18n.js"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>

@@ -27,7 +27,10 @@
 
 <main class="wrap">
   <div class="facility-header fade-in">
-    <h1 id="facility-name">Loading…</h1>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <h1 id="facility-name" style="margin:0;">Loading…</h1>
+      <button id="facility-share-btn" class="share-btn" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
+    </div>
     <p id="facility-meta" class="facility-meta"></p>
     <div class="rating-summary">
       <span id="current-rating">—</span> ★ average &middot; <span id="current-wait">—</span> current avg wait
@@ -35,12 +38,12 @@
     <p id="freshness-note" class="freshness-badge" style="margin-top:8px;"></p>
   </div>
 
-  <div class="card chart-card">
+  <div class="card chart-card reveal">
     <p class="chart-panel-title">Wait time trend (last 7 days)</p>
     <canvas id="trend-chart" height="90"></canvas>
   </div>
 
-  <div class="card">
+  <div class="card reveal">
     <p class="chart-panel-title">Staff ratings</p>
     <div id="staff-list"></div>
   </div>
@@ -55,6 +58,7 @@
 <script src="config.js"></script>
 <script src="supabase-client.js"></script>
 <script src="sample-data.js"></script>
+<script src="effects.js"></script>
 <script src="facility.js"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body>
