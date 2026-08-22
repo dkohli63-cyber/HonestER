@@ -61,11 +61,11 @@ function showProvinceDetail(code, facilities) {
         <div>
           <p class="facility-name">${escapeHtml(f.name)}</p>
           <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${escapeHtml(f.city || "")}</p>
-          ${count ? `<span class="freshness-badge"><span class="live-dot"></span>${count} report${count === 1 ? "" : "s"} in the last 48h</span>` : ""}
+          ${confidenceBadgeHtml(count)}
         </div>
         <div style="text-align:right;">
           <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
-          <div class="wait-sub">avg wait</div>
+          <div class="wait-sub">patient reported</div>
         </div>
       </a>`;
     })

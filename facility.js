@@ -61,10 +61,8 @@ function renderHeader(f) {
 
   const freshEl = document.getElementById("freshness-note");
   if (freshEl) {
-    const count = f.recent_report_count || 0;
-    freshEl.innerHTML = count
-      ? `<span class="live-dot"></span>Based on ${count} report${count === 1 ? "" : "s"} in the last 48 hours`
-      : `<i class="ti ti-info-circle"></i> No reports in the last 48 hours — this estimate may be outdated`;
+    freshEl.innerHTML = confidenceBadgeHtml(f.recent_report_count);
+    freshEl.className = ""; // confidenceBadgeHtml already includes the freshness-badge class
   }
 
   const shareBtn = document.getElementById("facility-share-btn");

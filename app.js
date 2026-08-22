@@ -177,7 +177,7 @@ function renderMarkers(facilities) {
   facilities.forEach((f) => {
     L.marker([f.lat, f.lng], { icon: facilityIcon() })
       .addTo(map)
-      .bindPopup(`<strong>${escapeHtml(f.name)}</strong><br>${formatMinutes(f.avg_wait_minutes)} avg wait`)
+      .bindPopup(`<strong>${escapeHtml(f.name)}</strong><br>${formatMinutes(f.avg_wait_minutes)} patient reported`)
       .on("click", () => (window.location.href = `facility.html?id=${f.id}`));
   });
 }
@@ -199,7 +199,7 @@ function renderList(facilities) {
         </div>
         <div style="text-align:right;margin-right:10px;">
           <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
-          <div class="wait-sub">avg wait</div>
+          <div class="wait-sub">patient reported</div>
         </div>
       </a>
       <button class="share-btn" data-share-text="${escapeHtml(shareText)}" data-share-url="${window.location.origin}${window.location.pathname.replace("index.html", "")}facility.html?id=${f.id}" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
@@ -214,9 +214,7 @@ function renderList(facilities) {
 }
 
 function freshnessBadge(count) {
-  if (!count) return "";
-  const label = count === 1 ? "1 report in the last 48h" : `${count} reports in the last 48h`;
-  return `<span class="freshness-badge"><span class="live-dot"></span>${label}</span>`;
+  return confidenceBadgeHtml(count);
 }
 
 async function handleSearchInput(e) {

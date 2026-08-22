@@ -99,13 +99,12 @@ nav.main-nav a.nav-link:hover { background: var(--sage-wash); text-decoration: n
   overflow: hidden;
 }
 .hero-pulse {
-  position: absolute;
-  top: 50%;
-  left: 0;
+  display: block;
   width: 100%;
-  height: 60px;
-  transform: translateY(-50%);
-  opacity: 0.55;
+  max-width: 420px;
+  height: 44px;
+  margin: 4px 0 18px;
+  opacity: 0.85;
   pointer-events: none;
 }
 .hero-eyebrow {
@@ -283,6 +282,22 @@ nav.main-nav a.nav-link:hover { background: var(--sage-wash); text-decoration: n
 .about-content h1 { font-family: var(--font-display); font-size: 30px; color: var(--pine); }
 .about-content h2 { font-family: var(--font-display); font-size: 19px; margin-top: 30px; color: var(--pine); }
 
+/* ── Emergency safety banner ────────────────────────────── */
+.emergency-banner {
+  background: #FDECEA;
+  border: 1px solid #F3C6C0;
+  color: #8A2E20;
+  font-size: 13.5px;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  margin: 0 0 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.emergency-banner i { font-size: 18px; margin-top: 1px; flex-shrink: 0; }
+.emergency-banner strong { font-weight: 700; }
+
 /* ── Footer ─────────────────────────────────────────────── */
 footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 22px 0 44px; font-size: 12.5px; color: var(--text-muted); text-align: center; }
 
@@ -378,6 +393,15 @@ footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 22px 0 
   letter-spacing: 0.03em;
 }
 .lang-toggle-btn:hover { background: var(--sage-light); }
+
+/* ── Confidence tier dots ───────────────────────────────── */
+.conf-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; position: relative; }
+.conf-dot.dot-high { background: var(--sage); }
+.conf-dot.dot-high::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--sage); opacity: 0.6; animation: livePulse 1.8s ease-out infinite; }
+.conf-dot.dot-moderate { background: #C99A3E; }
+.conf-dot.dot-limited { background: #C99A3E; opacity: 0.55; }
+.conf-dot.dot-none { background: var(--text-muted); }
+@media (prefers-reduced-motion: reduce) { .conf-dot.dot-high::after { animation: none; } }
 
 /* ── Freshness badge ────────────────────────────────────── */
 .freshness-badge {

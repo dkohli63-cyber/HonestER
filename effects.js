@@ -1,6 +1,23 @@
 // Shared "alive" effects: scroll-reveal, count-up numbers, and share.
 // Include this on any page that uses .reveal, data-countup, or .share-btn.
 
+// Confidence tiers based on how many reports a facility has had in the last
+// 48 hours — this is what makes the "reported" data feel honestly labelled
+// rather than implying a single stale report is as solid as a busy facility's
+// live average.
+function confidenceTier(count) {
+  count = count || 0;
+  if (count >= 10) return { label: "High confidence", sub: `${count} reports in the last 48h`, dotClass: "dot-high" };
+  if (count >= 3) return { label: "Moderate confidence", sub: `${count} reports in the last 48h`, dotClass: "dot-moderate" };
+  if (count >= 1) return { label: "Limited data", sub: `Only ${count} report${count === 1 ? "" : "s"} in the last 48h`, dotClass: "dot-limited" };
+  return { label: "No recent data", sub: "This estimate may be outdated", dotClass: "dot-none" };
+}
+
+function confidenceBadgeHtml(count) {
+  const t = confidenceTier(count);
+  return `<span class="freshness-badge"><span class="conf-dot ${t.dotClass}"></span>${t.label} &middot; ${t.sub}</span>`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal();
 });

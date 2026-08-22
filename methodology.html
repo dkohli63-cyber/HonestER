@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About the data — HonestER</title>
+<meta name="description" content="How HonestER collects, calculates, and labels its patient-reported wait time data.">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
+    <nav class="main-nav">
+      <a class="nav-link" href="browse.html">Browse by province</a>
+      <a class="nav-link" href="guide.html">ER guide</a>
+      <a class="nav-link" href="about.html">About</a>
+      <a class="btn-report" href="report.html">Report a visit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="about-content fade-in">
+    <h1>About the data</h1>
+    <p style="color:var(--text-secondary);">If you're a journalist, researcher, clinic, or just a careful reader — here's exactly how HonestER's numbers work, including their limits.</p>
+
+    <h2>Where the data comes from</h2>
+    <p>Every number on this site comes from an anonymous form filled out by someone after their own ER or walk-in visit. Nothing is pulled from hospital systems, provincial health authorities, or any official record. See our <a href="about.html">About page</a> for why we collect it this way.</p>
+
+    <h2>How a "wait time" is calculated</h2>
+    <p>A facility's displayed wait is the average time between check-in and being seen by a doctor, across all reports submitted for that facility in the last 14 days. Older reports age out of the average automatically, so the number reflects recent experience, not all-time history.</p>
+
+    <h2>How we handle duplicates and outliers</h2>
+    <p>Right now, every submitted report is included in the average as-is — we don't currently detect or remove duplicate submissions or statistical outliers (like a single unusually long or short visit). With a small number of total reports, one unusual entry can shift an average more than it would once there's a larger, steadier volume of reports. This is exactly why we show a confidence tier next to each wait time (see below) instead of presenting every number with equal certainty.</p>
+
+    <h2>What the confidence tiers mean</h2>
+    <ul>
+      <li><span class="conf-dot dot-high"></span><strong>High confidence</strong> — 10 or more reports in the last 48 hours</li>
+      <li><span class="conf-dot dot-moderate"></span><strong>Moderate confidence</strong> — 3 to 9 reports in the last 48 hours</li>
+      <li><span class="conf-dot dot-limited"></span><strong>Limited data</strong> — 1 to 2 reports in the last 48 hours</li>
+      <li><span class="conf-dot dot-none"></span><strong>No recent data</strong> — nothing reported in the last 48 hours; treat the number as potentially outdated</li>
+    </ul>
+
+    <h2>How facilities are identified</h2>
+    <p>When you search for a hospital or clinic while reporting a visit, we match it against Google's directory of real places so "Surrey Memorial," "surrey hospital," and similar variations all point to the same facility record, rather than creating duplicates.</p>
+
+    <h2>How staff ratings are moderated</h2>
+    <p>Ratings for a named doctor or nurse are held back from public view until a site administrator manually approves them. This exists because publishing an unverified claim about an identifiable person instantly carries real risk — both to that person and to the credibility of the platform. Overall facility ratings and wait times are not held back, since they don't name an individual.</p>
+
+    <h2>What HonestER does not know</h2>
+    <ul>
+      <li>We don't know whether a report is from a real visit or fabricated — there's no way to verify identity on an anonymous platform, by design.</li>
+      <li>We don't know a facility's official, hospital-reported wait time, and we don't claim to.</li>
+      <li>We don't adjust for the type or severity of each visit when calculating an average — a broken bone and a minor cut are both just "a report" in the average, even though CTAS would treat them very differently in real triage.</li>
+    </ul>
+
+    <h2>Privacy</h2>
+    <p>We don't collect names, emails, or IP addresses tied to reports. See the <a href="about.html">About page</a> for the full explanation of what we collect and why.</p>
+
+    <p style="margin-top:32px;"><a href="about.html">← Back to About</a></p>
+  </div>
+</main>
+
+<footer>
+  HonestER is community-reported and anonymous.
+</footer>
+
+<script src="config.js"></script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

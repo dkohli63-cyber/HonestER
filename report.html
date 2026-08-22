@@ -21,6 +21,8 @@
     <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
     <nav class="main-nav">
       <a class="nav-link" href="browse.html" data-i18n="browse_by_province">Browse by province</a>
+      <a class="nav-link" href="guide.html" data-i18n="nav_guide">ER guide</a>
+      <a class="nav-link" href="about.html" data-i18n="nav_about">About</a>
       <span class="nav-link" style="display:flex;align-items:center;gap:4px;">
         <i class="ti ti-lock"></i> <span data-i18n="nav_anonymous">Anonymous &middot; no login</span>
       </span>
@@ -30,6 +32,11 @@
 
 <main class="wrap">
   <div class="form-shell">
+
+    <div class="emergency-banner">
+      <i class="ti ti-phone-call" aria-hidden="true"></i>
+      <span><strong data-i18n="emergency_strong">If this is a medical emergency, call 911 or go to your nearest emergency department.</strong></span>
+    </div>
 
     <form id="report-form" class="card fade-in">
       <h1 class="page-title" data-i18n="form_title">Report your visit</h1>
@@ -161,7 +168,7 @@
 </main>
 
 <footer>
-  HonestER is community-reported and anonymous.
+  HonestER is community-reported and anonymous. <a href="methodology.html">About the data</a>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

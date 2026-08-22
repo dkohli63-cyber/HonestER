@@ -24,6 +24,7 @@
     <a href="index.html" class="logo"><span>Honest</span><span class="er">ER</span></a>
     <nav class="main-nav">
       <a class="nav-link" href="browse.html" data-i18n="browse_by_province">Browse by province</a>
+      <a class="nav-link" href="guide.html" data-i18n="nav_guide">ER guide</a>
       <a class="nav-link" href="about.html" data-i18n="nav_about">About</a>
       <a class="btn-report" href="report.html" data-i18n="nav_report">Report a visit</a>
     </nav>
@@ -33,13 +34,18 @@
 <main class="wrap">
 
   <section class="hero fade-in">
+    <span class="hero-eyebrow"><i class="ti ti-map-pin"></i> <span data-i18n="hero_eyebrow">Canada-wide, updated by patients</span></span>
+    <h1 data-i18n="hero_title">Know before you go.</h1>
     <svg class="hero-pulse" viewBox="0 0 800 60" preserveAspectRatio="none" aria-hidden="true">
       <polyline points="0,30 15,30 22,24 30,30 40,30 48,30 54,42 60,4 66,52 74,30 90,20 100,30 180,30 195,30 202,24 210,30 220,30 228,30 234,42 240,4 246,52 254,30 270,20 280,30 360,30 375,30 382,24 390,30 400,30 408,30 414,42 420,4 426,52 434,30 450,20 460,30 540,30 555,30 562,24 570,30 580,30 588,30 594,42 600,4 606,52 614,30 630,20 640,30 720,30 800,30" fill="none" stroke="#4F6B42" stroke-width="2.5" stroke-linejoin="round"/>
     </svg>
-    <span class="hero-eyebrow"><i class="ti ti-map-pin"></i> <span data-i18n="hero_eyebrow">Canada-wide, updated by patients</span></span>
-    <h1 data-i18n="hero_title">Know before you go.</h1>
     <p class="lede" data-i18n="hero_lede">Real ER and walk-in wait times, reported anonymously by people who were just there — so you're not guessing in the parking lot.</p>
   </section>
+
+  <div class="emergency-banner">
+    <i class="ti ti-phone-call" aria-hidden="true"></i>
+    <span><strong data-i18n="emergency_strong">If this is a medical emergency, call 911 or go to your nearest emergency department.</strong> <span data-i18n="emergency_sub">HonestER shows reported wait times — it does not determine whether you need emergency care.</span></span>
+  </div>
 
   <div class="search-bar">
     <i class="ti ti-search"></i>
@@ -82,7 +88,7 @@
 
     <div class="stats-grid">
       <div class="stat-card reveal">
-        <div class="stat-number" id="stat-visits">0M</div>
+        <div class="stat-number" id="stat-visits">16.1M</div>
         <div class="stat-label" data-i18n="stat1_label">emergency department visits across Canada in 2024–25 — about 44,000 people every day.</div>
       </div>
       <div class="stat-card reveal">
@@ -90,7 +96,7 @@
         <div class="stat-label" data-i18n="stat2_label">patients waited more than 14 hours for care in Canadian EDs, per the latest national data.</div>
       </div>
       <div class="stat-card reveal">
-        <div class="stat-number" id="stat-admitted">0%</div>
+        <div class="stat-number" id="stat-admitted">12%</div>
         <div class="stat-label" data-i18n="stat3_label">of ED visits result in a hospital admission — those patients often wait far longer than others.</div>
       </div>
     </div>
@@ -98,7 +104,7 @@
 
     <p class="weekly-counter" id="weekly-counter-wrap">
       <span data-i18n="weekly_counter_pre">Reports submitted this week:</span>
-      <strong id="weekly-counter-number">0</strong>
+      <strong id="weekly-counter-number">—</strong>
     </p>
 
     <div class="chart-panel reveal">
@@ -110,8 +116,8 @@
 
 </main>
 
-<footer data-i18n="footer_note">
-  HonestER is community-reported and anonymous. Wait times are not sourced from hospitals, clinics, or health authorities.
+<footer>
+  <span data-i18n="footer_note">HonestER is community-reported and anonymous. Wait times are not sourced from hospitals, clinics, or health authorities.</span> <a href="methodology.html">About the data</a>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
