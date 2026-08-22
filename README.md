@@ -81,6 +81,13 @@ Then open `http://localhost:8000` in your browser.
 dashboard) — safe, non-destructive, doesn't touch existing data. Run it
 in Supabase → SQL Editor the same way as the earlier migration files.
 
+## 7c. Run the feedback table migration
+
+`migrate-v4.sql` adds a table for the new anonymous feedback/bug-report
+button (bottom-right corner on every page). Submissions aren't readable
+through the public API — check them directly in Supabase → Table Editor →
+feedback.
+
 ## 8. Put it on GitHub
 
 ```

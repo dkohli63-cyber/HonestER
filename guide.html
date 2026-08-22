@@ -67,7 +67,19 @@
       <li><strong>One important exception:</strong> if the visit involves a suspected poisoning, overdose, or reaction to a substance or medication, bring the container or packaging with you rather than leaving it behind — it can meaningfully speed up treatment.</li>
     </ul>
 
-    <p style="margin-top:32px;"><a href="about.html">Learn more about how triage works →</a></p>
+    <details class="expand-section">
+      <summary>Quick reference: the 5 triage levels (CTAS)</summary>
+      <div class="expand-body">
+        <ul style="list-style:none;padding:0;">
+          <li style="margin-bottom:8px;">🔴 <strong>CTAS 1 — Resuscitation</strong>: immediately life-threatening</li>
+          <li style="margin-bottom:8px;">🟠 <strong>CTAS 2 — Emergent</strong>: could become life-threatening very quickly</li>
+          <li style="margin-bottom:8px;">🟡 <strong>CTAS 3 — Urgent</strong>: serious, needs care soon</li>
+          <li style="margin-bottom:8px;">🟢 <strong>CTAS 4 — Less urgent</strong>: needs care, not time-critical</li>
+          <li>🔵 <strong>CTAS 5 — Non-urgent</strong>: could reasonably wait or be seen elsewhere</li>
+        </ul>
+        <p style="margin-top:12px;">Patients are called in roughly this order, regardless of arrival time — so someone who arrived after you may be seen first if their condition is more urgent. <a href="about.html">Read more about why waits vary →</a></p>
+      </div>
+    </details>
   </div>
 </main>
 
@@ -75,7 +87,10 @@
   HonestER is community-reported and anonymous. This page is general information, not medical advice. <a href="methodology.html">About the data</a>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="feedback-widget.js"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body>
 </html>

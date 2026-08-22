@@ -491,6 +491,91 @@ footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 22px 0 
 }
 .city-chip.active { background: var(--pine); color: #fff; border-color: var(--pine); }
 .city-chip:hover { text-decoration: none; border-color: var(--sage); }
+/* ── Feedback / bug report widget ───────────────────────────*/
+#feedback-bubble {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--pine);
+  color: #fff;
+  border: none;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  cursor: pointer;
+  z-index: 50;
+  transition: transform 0.15s ease;
+}
+#feedback-bubble:hover { transform: scale(1.06); }
+#feedback-panel {
+  position: fixed;
+  bottom: 84px;
+  right: 22px;
+  width: 300px;
+  max-width: calc(100vw - 32px);
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  display: none;
+  overflow: hidden;
+  z-index: 50;
+}
+#feedback-panel.open { display: block; }
+.feedback-header { background: var(--pine); color: #fff; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+.feedback-header .title { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+.feedback-header .sub { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+.feedback-header button { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; }
+#feedback-form { padding: 14px 16px; }
+.feedback-type-row { display: flex; gap: 12px; margin-bottom: 10px; font-size: 12.5px; color: var(--text-secondary); }
+.feedback-type-row label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+#feedback-message {
+  width: 100%;
+  border: 1.5px solid var(--sage-light);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+#feedback-message:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px var(--sage-wash); }
+#feedback-thanks { padding: 24px 16px; text-align: center; }
+#feedback-thanks i { font-size: 30px; color: var(--sage); }
+#feedback-thanks p { font-size: 13.5px; color: var(--text-secondary); margin: 8px 0 0; }
+@media (max-width: 640px) {
+  #feedback-panel { right: 12px; width: calc(100vw - 24px); }
+}
+
+/* ── Inline expandable sections ("read more without leaving") */
+details.expand-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: 16px 0;
+  background: var(--white);
+}
+details.expand-section summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--pine);
+  font-size: 14px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+details.expand-section summary::-webkit-details-marker { display: none; }
+details.expand-section summary::before { content: "+"; font-size: 16px; color: var(--sage); width: 16px; }
+details.expand-section[open] summary::before { content: "–"; }
+details.expand-section .expand-body { margin-top: 12px; font-size: 14px; line-height: 1.65; }
+details.expand-section .expand-body h4 { font-size: 13px; color: var(--pine); margin: 14px 0 4px; }
+details.expand-section .expand-body ul { margin: 4px 0; }
 /* ── Confidence tier dots ───────────────────────────────── */
 .conf-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; position: relative; }
 .conf-dot.dot-high { background: var(--sage); }

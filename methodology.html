@@ -15,6 +15,7 @@
 <meta name="twitter:description" content="How HonestER collects, calculates, and labels its patient-reported wait time data.">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -77,7 +78,10 @@
   HonestER is community-reported and anonymous.
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="feedback-widget.js"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body>
 </html>

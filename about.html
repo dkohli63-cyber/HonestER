@@ -53,7 +53,26 @@
     <h2>Keeping the data honest</h2>
     <p>Submissions go through basic automated checks (like making sure times are realistic) and rate limits to make bulk or fake submissions harder, without requiring any personal information to do it.</p>
 
-    <p style="margin-top:32px;"><a href="methodology.html">Read the full methodology — how averages, confidence tiers, and moderation actually work →</a></p>
+    <details class="expand-section">
+      <summary>How exactly are averages calculated, and what do the confidence tiers mean?</summary>
+      <div class="expand-body">
+        <h4>How a wait time is calculated</h4>
+        <p>A facility's displayed wait is the average time between check-in and being seen by a doctor, across all reports for that facility in the last 14 days. Older reports age out automatically.</p>
+
+        <h4>Confidence tiers</h4>
+        <ul>
+          <li><span class="conf-dot dot-high"></span><strong>High confidence</strong> — 10+ reports in the last 48 hours</li>
+          <li><span class="conf-dot dot-moderate"></span><strong>Moderate confidence</strong> — 3–9 reports</li>
+          <li><span class="conf-dot dot-limited"></span><strong>Limited data</strong> — 1–2 reports</li>
+          <li><span class="conf-dot dot-none"></span><strong>No recent data</strong> — nothing in the last 48 hours</li>
+        </ul>
+
+        <h4>What we don't do</h4>
+        <p>We don't currently detect or remove duplicate submissions or outliers, and we don't adjust for how urgent a visit was when calculating an average — a broken bone and a minor cut both just count as "a report."</p>
+
+        <p style="margin-top:14px;"><a href="methodology.html">See the full methodology page →</a> — useful if you want to cite, link, or dig deeper (e.g. as a journalist or researcher).</p>
+      </div>
+    </details>
   </div>
 </main>
 
@@ -61,7 +80,10 @@
   HonestER is community-reported and anonymous. <a href="methodology.html">About the data</a>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
+<script src="supabase-client.js"></script>
+<script src="feedback-widget.js"></script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 </body>
 </html>
