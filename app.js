@@ -226,23 +226,26 @@ function renderList(facilities) {
   facilities.forEach((f) => {
     const long = f.avg_wait_minutes && f.avg_wait_minutes > 180;
     const shareText = `ER/clinic wait at ${f.name}: ${formatMinutes(f.avg_wait_minutes)} (via HonestER)`;
-    const card = document.createElement("div");
+    const card = document.createElement("a");
+    card.href = `facility.html?id=${f.id}`;
     card.className = "facility-card";
+    card.style.textDecoration = "none";
+    card.style.color = "inherit";
     card.innerHTML = `
-      <a href="facility.html?id=${f.id}" style="text-decoration:none;color:inherit;flex:1;display:flex;justify-content:space-between;align-items:center;">
-        <div>
-          <p class="facility-name">${escapeHtml(f.name)}</p>
-          <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${f.distance.toFixed(1)} km &middot; ${escapeHtml(f.city)}, ${escapeHtml(f.province)}</p>
-          ${freshnessBadge(f.recent_report_count)}
-          ${officialSourceHtml(f, { compact: true })}
-        </div>
-        <div style="text-align:right;margin-right:10px;">
-          <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
-          <div class="wait-sub">patient reported</div>
-        </div>
-      </a>
-      ${favoriteButtonHtml(f.id)}
-      <button class="share-btn" data-share-text="${escapeHtml(shareText)}" data-share-url="${window.location.origin}${window.location.pathname.replace("index.html", "")}facility.html?id=${f.id}" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
+      <div class="facility-card-info">
+        <p class="facility-name">${escapeHtml(f.name)}</p>
+        <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${f.distance.toFixed(1)} km &middot; ${escapeHtml(f.city)}, ${escapeHtml(f.province)}</p>
+        ${freshnessBadge(f.recent_report_count)}
+        ${officialSourceHtml(f, { compact: true })}
+      </div>
+      <div class="facility-card-stats">
+        <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
+        <div class="wait-sub">patient reported</div>
+      </div>
+      <div class="facility-card-actions">
+        ${favoriteButtonHtml(f.id)}
+        <button class="share-btn" data-share-text="${escapeHtml(shareText)}" data-share-url="${window.location.origin}${window.location.pathname.replace("index.html", "")}facility.html?id=${f.id}" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
+      </div>
     `;
     list.appendChild(card);
   });

@@ -74,13 +74,13 @@ function showProvinceDetail(code, facilities, activeCity) {
       const long = f.avg_wait_minutes && f.avg_wait_minutes > 180;
       const count = f.recent_report_count || 0;
       return `<a href="facility.html?id=${f.id}" class="facility-card" style="text-decoration:none;color:inherit;">
-        <div>
+        <div class="facility-card-info">
           <p class="facility-name">${escapeHtml(f.name)}</p>
           <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${escapeHtml(f.city || "")}</p>
           ${confidenceBadgeHtml(count)}
           ${officialSourceHtml(f, { compact: true })}
         </div>
-        <div style="text-align:right;">
+        <div class="facility-card-stats">
           <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
           <div class="wait-sub">patient reported</div>
         </div>

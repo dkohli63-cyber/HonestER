@@ -32,12 +32,12 @@ select
   f.province,
   f.lat,
   f.lng,
-  f.official_source_name,
-  f.official_source_url,
   avg(extract(epoch from (v.seen_by_doctor_time - v.checkin_time)) / 60)
     filter (where v.created_at > now() - interval '14 days') as avg_wait_minutes,
   avg(v.overall_rating) as avg_rating,
-  count(v.id) filter (where v.created_at > now() - interval '48 hours') as recent_report_count
+  count(v.id) filter (where v.created_at > now() - interval '48 hours') as recent_report_count,
+  f.official_source_name,
+  f.official_source_url
 from facilities f
 left join visits v on v.facility_id = f.id
 group by f.id;
