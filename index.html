@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HonestER — real ER and clinic wait times, from real patients</title>
 <meta name="description" content="Crowdsourced, anonymous ER and walk-in clinic wait times across Canada.">
+<link rel="canonical" href="https://honester.help/">
+<meta property="og:title" content="HonestER — real ER and clinic wait times, from real patients">
+<meta property="og:description" content="Crowdsourced, anonymous ER and walk-in clinic wait times across Canada.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://honester.help/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HonestER — real ER and clinic wait times, from real patients">
+<meta name="twitter:description" content="Crowdsourced, anonymous ER and walk-in clinic wait times across Canada.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -53,6 +61,11 @@
   </div>
 
   <div id="map"></div>
+
+  <div class="card reveal" style="margin-bottom:24px;">
+    <p class="chart-panel-title" style="display:flex;align-items:center;gap:6px;"><span class="live-dot"></span>Recent activity across Canada</p>
+    <div id="activity-feed"></div>
+  </div>
 
   <h2 class="section-title" data-i18n="section_near_you">Near you</h2>
   <div id="facility-list" class="facility-list">

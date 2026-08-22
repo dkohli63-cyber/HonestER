@@ -18,6 +18,66 @@ function confidenceBadgeHtml(count) {
   return `<span class="freshness-badge"><span class="conf-dot ${t.dotClass}"></span>${t.label} &middot; ${t.sub}</span>`;
 }
 
+function officialSourceHtml(f, { compact = false } = {}) {
+  if (!f.official_source_url) return "";
+  if (compact) {
+    return `<a href="${f.official_source_url}" target="_blank" rel="noopener" class="official-link-compact" onclick="event.stopPropagation()">
+      <i class="ti ti-external-link"></i> Official wait time
+    </a>`;
+  }
+  return `<a href="${f.official_source_url}" target="_blank" rel="noopener" class="official-link">
+    <i class="ti ti-building-hospital"></i>
+    <span>Check official wait time — ${escapeHtmlShared(f.official_source_name)} <i class="ti ti-external-link" style="font-size:12px;"></i></span>
+  </a>`;
+}
+
+function escapeHtmlShared(str) {
+  const div = document.createElement("div");
+  div.textContent = str ?? "";
+  return div.innerHTML;
+}
+
+// On-device favorites — no login, no account, no data sent anywhere.
+// Stored in this browser only, same privacy model as the rest of the site.
+const FAVORITES_KEY = "honester_favorites";
+
+function getFavorites() {
+  try {
+    return JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function isFavorite(id) {
+  return getFavorites().includes(id);
+}
+
+function toggleFavorite(id) {
+  let favs = getFavorites();
+  if (favs.includes(id)) {
+    favs = favs.filter((f) => f !== id);
+  } else {
+    favs.push(id);
+  }
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
+  return favs.includes(id);
+}
+
+function favoriteButtonHtml(id) {
+  const active = isFavorite(id);
+  return `<button class="fav-btn ${active ? "active" : ""}" data-fav-id="${id}" onclick="event.preventDefault();event.stopPropagation();window.__handleFavClick(this)" aria-label="Save this facility">
+    <i class="ti ${active ? "ti-heart-filled" : "ti-heart"}"></i>
+  </button>`;
+}
+
+window.__handleFavClick = function (btn) {
+  const id = btn.dataset.favId;
+  const nowActive = toggleFavorite(id);
+  btn.classList.toggle("active", nowActive);
+  btn.querySelector("i").className = `ti ${nowActive ? "ti-heart-filled" : "ti-heart"}`;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal();
 });

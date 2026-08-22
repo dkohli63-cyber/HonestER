@@ -74,6 +74,13 @@ python3 -m http.server 8000
 ```
 Then open `http://localhost:8000` in your browser.
 
+## 7b. Run the latest migration
+
+`migrate-v3.sql` adds official-source link-out fields for BC facilities
+(linking to the Vancouver Coastal Health / Fraser Health wait-time
+dashboard) — safe, non-destructive, doesn't touch existing data. Run it
+in Supabase → SQL Editor the same way as the earlier migration files.
+
 ## 8. Put it on GitHub
 
 ```

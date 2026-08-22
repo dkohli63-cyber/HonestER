@@ -71,6 +71,12 @@ function renderHeader(f) {
     shareBtn.dataset.shareUrl = window.location.href;
     wireShareButtons(document);
   }
+
+  const favWrap = document.getElementById("facility-fav-btn");
+  if (favWrap) favWrap.innerHTML = favoriteButtonHtml(f.id);
+
+  const officialWrap = document.getElementById("official-source-wrap");
+  if (officialWrap) officialWrap.innerHTML = officialSourceHtml(f);
 }
 
 function renderStaff(staff) {

@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Facility details — HonestER</title>
+<meta name="description" content="Patient-reported wait times, ratings, and trends for a specific hospital or clinic.">
+<link rel="canonical" href="https://honester.help/facility.html">
+<meta property="og:title" content="Facility details — HonestER">
+<meta property="og:description" content="Patient-reported wait times, ratings, and trends for a specific hospital or clinic.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://honester.help/facility.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Facility details — HonestER">
+<meta name="twitter:description" content="Patient-reported wait times, ratings, and trends for a specific hospital or clinic.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -31,13 +40,17 @@
   <div class="facility-header fade-in">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
       <h1 id="facility-name" style="margin:0;">Loading…</h1>
-      <button id="facility-share-btn" class="share-btn" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span id="facility-fav-btn"></span>
+        <button id="facility-share-btn" class="share-btn" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
+      </div>
     </div>
     <p id="facility-meta" class="facility-meta"></p>
     <div class="rating-summary">
       <span id="current-rating">—</span> ★ average &middot; <span id="current-wait">—</span> patient-reported wait
     </div>
     <p id="freshness-note" class="freshness-badge" style="margin-top:8px;"></p>
+    <div id="official-source-wrap"></div>
   </div>
 
   <div class="card chart-card reveal">

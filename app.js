@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initMap();
   initStatCountUps();
   loadWeeklyCounter();
+  loadActivityFeed();
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -98,6 +99,43 @@ async function loadWeeklyCounter() {
     { threshold: 0.4 }
   );
   observer.observe(el);
+}
+
+// Recent anonymous reports, shown as a simple activity feed — no personal
+// info in any of this, just facility name, category, and how long ago.
+async function loadActivityFeed() {
+  const el = document.getElementById("activity-feed");
+  if (!el) return;
+  if (!supabaseClient) {
+    el.innerHTML = `<p style="color:var(--text-muted);font-size:13px;">Live feed connects once your database is live.</p>`;
+    return;
+  }
+  const { data, error } = await supabaseClient
+    .from("visits")
+    .select("visit_category, created_at, facilities(name)")
+    .order("created_at", { ascending: false })
+    .limit(6);
+  if (error || !data || !data.length) {
+    el.innerHTML = `<p style="color:var(--text-muted);font-size:13px;">No reports yet — <a href="report.html">be the first</a>.</p>`;
+    return;
+  }
+  el.innerHTML = data
+    .map((v) => {
+      const name = v.facilities?.name || "a facility";
+      const category = (v.visit_category || "").replace(/_/g, " ");
+      return `<div class="feed-item"><span>Someone reported a visit for <strong>${escapeHtml(category)}</strong> at <strong>${escapeHtml(name)}</strong></span><span class="feed-time">${timeAgo(v.created_at)}</span></div>`;
+    })
+    .join("");
+}
+
+function timeAgo(isoString) {
+  const diffMs = Date.now() - new Date(isoString).getTime();
+  const mins = Math.round(diffMs / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.round(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.round(hrs / 24)}d ago`;
 }
 
 function youIcon() {
@@ -196,12 +234,14 @@ function renderList(facilities) {
           <p class="facility-name">${escapeHtml(f.name)}</p>
           <p class="facility-meta">${f.type === "er" ? "Emergency room" : "Walk-in clinic"} &middot; ${f.distance.toFixed(1)} km &middot; ${escapeHtml(f.city)}, ${escapeHtml(f.province)}</p>
           ${freshnessBadge(f.recent_report_count)}
+          ${officialSourceHtml(f, { compact: true })}
         </div>
         <div style="text-align:right;margin-right:10px;">
           <div class="wait-badge ${long ? "long" : ""}">${formatMinutes(f.avg_wait_minutes)}</div>
           <div class="wait-sub">patient reported</div>
         </div>
       </a>
+      ${favoriteButtonHtml(f.id)}
       <button class="share-btn" data-share-text="${escapeHtml(shareText)}" data-share-url="${window.location.origin}${window.location.pathname.replace("index.html", "")}facility.html?id=${f.id}" aria-label="Share this wait time"><i class="ti ti-share-3"></i></button>
     `;
     list.appendChild(card);

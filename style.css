@@ -394,6 +394,77 @@ footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 22px 0 
 }
 .lang-toggle-btn:hover { background: var(--sage-light); }
 
+/* ── Official source link-out ──────────────────────────────*/
+.official-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #EEF3FA;
+  border: 1px solid #CBDCF2;
+  color: #2C5A96;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-top: 10px;
+  text-decoration: none;
+}
+.official-link:hover { background: #E2ECF9; text-decoration: none; }
+.official-link i { font-size: 17px; }
+.official-link-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: #2C5A96;
+  margin-top: 4px;
+  text-decoration: none;
+}
+.official-link-compact:hover { text-decoration: underline; }
+.official-link-compact i { font-size: 12px; }
+
+/* ── Favorites (on-device, no login) ───────────────────────*/
+.fav-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 20px;
+  padding: 4px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.fav-btn.active { color: #C9584A; }
+.fav-btn:hover { color: #C9584A; }
+
+/* ── Live activity feed ─────────────────────────────────────*/
+.feed-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.feed-item:last-child { border-bottom: none; }
+.feed-item .feed-time { color: var(--text-muted); font-size: 11.5px; white-space: nowrap; }
+.feed-item strong { color: var(--pine); }
+
+/* ── Province browse: city drill-down ───────────────────────*/
+.city-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 20px; }
+.city-chip {
+  font-size: 12.5px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--sage-light);
+  background: var(--white);
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: none;
+}
+.city-chip.active { background: var(--pine); color: #fff; border-color: var(--pine); }
+.city-chip:hover { text-decoration: none; border-color: var(--sage); }
 /* ── Confidence tier dots ───────────────────────────────── */
 .conf-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; position: relative; }
 .conf-dot.dot-high { background: var(--sage); }
