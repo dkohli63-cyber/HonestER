@@ -395,15 +395,39 @@ footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 22px 0 
 .weekly-counter { text-align: center; font-size: 13px; color: var(--text-secondary); margin: 18px 0 4px; }
 .weekly-counter strong { color: var(--pine); font-size: 15px; }
 
+.mobile-menu-btn { display: none; background: none; border: none; font-size: 22px; color: var(--pine); cursor: pointer; padding: 4px 6px; }
+
 @media (max-width: 640px) {
   .two-col { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr; }
   .triage-steps { grid-template-columns: 1fr; }
-  nav.main-nav a.nav-link { display: none; }
   .facility-card { flex-wrap: wrap; }
   .facility-card-info { flex-basis: 100%; order: 1; }
   .facility-card-stats { order: 2; align-items: flex-start; text-align: left; margin-top: 4px; }
   .facility-card-actions { order: 3; flex-direction: row; margin-left: auto; margin-top: 4px; }
+
+  header.site-header { position: relative; }
+  .mobile-menu-btn { display: inline-flex; }
+  nav.main-nav a.nav-link { display: none; }
+  nav.main-nav.mobile-open {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 20px 14px;
+    gap: 2px;
+  }
+  nav.main-nav.mobile-open a.nav-link {
+    display: block;
+    padding: 12px 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  nav.main-nav.mobile-open a.nav-link:last-of-type { border-bottom: none; }
 }
 
 /* ── Language toggle ────────────────────────────────────── */
